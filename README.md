@@ -29,7 +29,7 @@ Icons: React Icons.
 Clone the repository:
 
 Bash
-git clone https://github.com/faresali74/Social-App
+git clone [https://github.com/Ahmed-adel23/Social-App]
 Navigate to the project directory:
 
 Bash
