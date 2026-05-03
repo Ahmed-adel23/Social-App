@@ -6,7 +6,7 @@ export const fetchComments = async (postId) => {
     {
       params: {
         page: 1,
-        limit: 10,
+        limit: 10000,
       },
       headers: {
         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
