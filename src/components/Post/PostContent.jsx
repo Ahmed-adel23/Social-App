@@ -121,8 +121,6 @@ export default function PostCard({
       });
   }
 
-  /* PLACEHOLDER_PART2 */
-
   const handleImageClick = () => fileInputRef.current.click();
 
   const handleFileChange = (e) => {
@@ -179,8 +177,6 @@ export default function PostCard({
       });
   }
 
-  /* PLACEHOLDER_PART3 */
-
   const handleUpdateSubmit = async () => {
     const formData = new FormData();
     formData.append("body", editText);
@@ -233,8 +229,6 @@ export default function PostCard({
         .finally(() => setIsLoadingComments(false));
     }
   };
-
-  /* PLACEHOLDER_JSX */
 
   return (
     <>
@@ -320,8 +314,6 @@ export default function PostCard({
           </div>
         </div>
 
-        {/* PLACEHOLDER_BODY */}
-
         {/* Body / Edit Mode */}
         {isEditing ? (
           <div className="mb-6 space-y-4">
@@ -378,11 +370,9 @@ export default function PostCard({
             <span className="flex items-center gap-0.5 text-gray-500 dark:text-gray-400 text-sm font-medium me-2.5">
               <span>{post.sharesCount || 0}</span><BiRepost className="text-lg" /><span>shares</span>
             </span>
-            <span className="text-gray-500 dark:text-gray-400 text-sm font-medium">{localCommentsCount} comments</span>
+            <span onClick={handleToggleComments} className="text-gray-500 dark:text-gray-400 text-sm font-medium cursor-pointer hover:underline hover:text-blue-600 transition-all">{localCommentsCount} comments</span>
           </div>
         </div>
-
-        {/* PLACEHOLDER_ACTIONS */}
 
         {/* Action Buttons */}
         <div className="grid grid-cols-3 gap-2 py-1 mb-2">
@@ -416,25 +406,23 @@ export default function PostCard({
           </button>
         </div>
 
-        {/* PLACEHOLDER_COMMENTS */}
-
         {/* Comments Section - toggled */}
         {showComments && (
-          <div className="space-y-4 pt-4 border-t border-gray-100 dark:border-gray-700 animate-fade-in-up">
+          <div className="pt-4 border-t border-gray-100 dark:border-gray-700 animate-fade-in-up">
             {isLoadingComments ? (
               <div className="flex justify-center py-6">
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
               </div>
             ) : localComments && localComments.length > 0 ? (
-              <div className="space-y-4 mb-4">
+              <div className="max-h-96 overflow-y-auto pr-1 space-y-3 mb-3 scrollbar-thin">
                 {localComments.map((comment, index) => (
                   <div key={comment?._id || index} className="flex gap-3 animate-fade-in">
-                    <div className="w-9 h-9 rounded-full bg-gray-200 dark:bg-gray-700 shrink-0 overflow-hidden">
+                    <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 shrink-0 overflow-hidden">
                       <img src={comment?.commentCreator?.photo || profileImg} alt="avatar" className="w-full h-full object-cover" />
                     </div>
-                    <div className="flex-1">
-                      <div className="bg-[#F3F5F7] dark:bg-gray-700 p-3 rounded-2xl rounded-tl-none inline-block max-w-full">
-                        <h4 className="text-sm font-bold text-slate-800 dark:text-gray-200">{comment?.commentCreator?.name || "User"}</h4>
+                    <div className="flex-1 min-w-0">
+                      <div className="bg-[#F3F5F7] dark:bg-gray-700 p-2.5 rounded-2xl rounded-tl-none inline-block max-w-full">
+                        <h4 className="text-xs font-bold text-slate-800 dark:text-gray-200">{comment?.commentCreator?.name || "User"}</h4>
                         <p className="text-sm text-slate-600 dark:text-gray-400 break-words">{comment?.content}</p>
                         {comment?.image && (
                           <div className="mt-2 rounded-lg overflow-hidden border border-gray-100 dark:border-gray-600 max-w-xs">
