@@ -70,6 +70,9 @@ export default function PostCard({
   const [showComments, setShowComments] = useState(false);
   const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
+  const [commentsPage, setCommentsPage] = useState(1);
+  const [hasMoreComments, setHasMoreComments] = useState(true);
+  const [isLoadingMoreComments, setIsLoadingMoreComments] = useState(false);
 
   let userId = userData?._id || localStorage.getItem("userId");
 
@@ -219,15 +222,38 @@ export default function PostCard({
     setShowComments(willShow);
     if (willShow && !commentsLoaded) {
       setIsLoadingComments(true);
-      fetchComments(post._id)
+      fetchComments(post._id, 1)
         .then((res) => {
-          const comments = res.data?.comments || res.data?.data?.comments || [];
-          setLocalComments(comments);
+          const data = res.data?.comments || res.data?.data?.comments || [];
+          const paging = res.data?.paginationInfo || res.data?.data?.paginationInfo;
+          setLocalComments(data);
+          setCommentsPage(1);
+          setHasMoreComments(
+            paging ? paging.currentPage < paging.numberOfPages : data.length >= 25,
+          );
           setCommentsLoaded(true);
         })
         .catch((err) => console.error("Error fetching comments:", err))
         .finally(() => setIsLoadingComments(false));
     }
+  };
+
+  const loadMoreComments = () => {
+    if (isLoadingMoreComments || !hasMoreComments) return;
+    const nextPage = commentsPage + 1;
+    setIsLoadingMoreComments(true);
+    fetchComments(post._id, nextPage)
+      .then((res) => {
+        const data = res.data?.comments || res.data?.data?.comments || [];
+        const paging = res.data?.paginationInfo || res.data?.data?.paginationInfo;
+        setLocalComments((prev) => [...prev, ...data]);
+        setCommentsPage(nextPage);
+        setHasMoreComments(
+          paging ? paging.currentPage < paging.numberOfPages : data.length >= 25,
+        );
+      })
+      .catch((err) => console.error("Error loading more comments:", err))
+      .finally(() => setIsLoadingMoreComments(false));
   };
 
   return (
@@ -433,6 +459,22 @@ export default function PostCard({
                     </div>
                   </div>
                 ))}
+                {hasMoreComments && (
+                  <button
+                    onClick={loadMoreComments}
+                    disabled={isLoadingMoreComments}
+                    className="w-full py-2 text-sm font-semibold text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-colors cursor-pointer"
+                  >
+                    {isLoadingMoreComments ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></span>
+                        Loading...
+                      </span>
+                    ) : (
+                      "Load more comments"
+                    )}
+                  </button>
+                )}
               </div>
             ) : (
               <p className="text-center text-gray-400 dark:text-gray-500 text-sm py-4">No comments yet. Be the first!</p>
