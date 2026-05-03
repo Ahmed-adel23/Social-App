@@ -26,8 +26,28 @@ export default function usePosts(fetchFunction) {
       .finally(() => setIsLoadingPosts(false));
   }, [page, isLoadingPosts, hasMore, fetchFunction]);
 
+  const refreshPosts = useCallback(() => {
+    setPosts([]);
+    setPage(1);
+    setHasMore(true);
+    setIsLoadingPosts(true);
+    fetchFunction(1)
+      .then((res) => {
+        const postsData =
+          res.posts || res.data?.posts || res.data?.data?.posts || [];
+        if (postsData.length === 0) {
+          setHasMore(false);
+        } else {
+          setPosts(postsData);
+          setPage(2);
+        }
+      })
+      .catch((err) => console.error("Error fetching posts:", err))
+      .finally(() => setIsLoadingPosts(false));
+  }, [fetchFunction]);
+
   useEffect(() => {
     loadMorePosts();
   }, []);
-  return { posts, isLoadingPosts, setPosts, hasMore, loadMorePosts };
+  return { posts, isLoadingPosts, setPosts, hasMore, loadMorePosts, refreshPosts };
 }

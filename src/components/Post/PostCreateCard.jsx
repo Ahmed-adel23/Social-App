@@ -4,7 +4,7 @@ import { UserContext } from "../../App";
 import { AddPost } from "../../services/createPost";
 import { LuLoader } from "react-icons/lu";
 
-export default function PostCreateCard() {
+export default function PostCreateCard({ onPostCreated }) {
   const { userData } = useContext(UserContext);
   const [postContent, setPostContent] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
@@ -44,6 +44,7 @@ export default function PostCreateCard() {
         console.log("Success:", res.data);
         setPostContent("");
         removeImage();
+        if (onPostCreated) onPostCreated();
       })
       .catch((err) => {
         console.error("Error:", err);

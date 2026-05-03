@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { getUserPosts } from "../services/UserPosts";
 import { UserContext } from "../App";
 
@@ -7,7 +7,7 @@ export default function useUserPosts() {
   const [posts, setPosts] = useState([]);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
 
-  useEffect(() => {
+  const fetchPosts = useCallback(() => {
     if (userData?._id) {
       setIsLoadingPosts(true);
       getUserPosts(userData._id)
@@ -23,5 +23,9 @@ export default function useUserPosts() {
     }
   }, [userData]);
 
-  return { posts, isLoadingPosts };
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
+
+  return { posts, isLoadingPosts, refreshPosts: fetchPosts };
 }

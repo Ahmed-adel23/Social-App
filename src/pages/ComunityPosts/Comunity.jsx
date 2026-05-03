@@ -10,7 +10,7 @@ import PostCreateCard from "../../components/Post/PostCreateCard";
 export default function Comunity() {
   const location = useLocation();
 
-  const { posts, isLoadingPosts, hasMore, loadMorePosts } =
+  const { posts, isLoadingPosts, hasMore, loadMorePosts, refreshPosts } =
     usePosts(fetchPosts);
 
   const observer = useRef();
@@ -41,7 +41,7 @@ export default function Comunity() {
 
   return (
     <div className="space-y-6 pb-10">
-      <PostCreateCard />
+      <PostCreateCard onPostCreated={refreshPosts} />
 
       <UserPosts posts={posts} loading={false} />
 

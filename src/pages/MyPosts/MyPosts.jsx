@@ -8,11 +8,11 @@ import { FaArrowLeft } from "react-icons/fa";
 
 export default function MyPosts() {
   const { userData } = useContext(UserContext);
-  const { posts, isLoadingPosts } = useUserPosts();
+  const { posts, isLoadingPosts, refreshPosts } = useUserPosts();
 
   return (
     <div className="space-y-6">
-      <PostCreateCard userImg={userData?.photo || ProfileImg} />
+      <PostCreateCard userImg={userData?.photo || ProfileImg} onPostCreated={refreshPosts} />
       <UserPosts posts={posts} loading={isLoadingPosts} />
     </div>
   );

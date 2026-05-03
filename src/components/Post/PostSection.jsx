@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import profileImg from "../../assets/Images/HomeImgs/defaultProfile.png";
@@ -36,13 +36,12 @@ export default function Post() {
     }
   }, [location.state]);
 
-  useEffect(() => {
+  const loadPosts = useCallback(() => {
+    setIsLoadingPosts(true);
     fetchFeedPosts()
       .then((res) => {
         setPosts(res.posts);
         console.log(res.data.data);
-
-        setIsLoadingPosts(false);
       })
       .catch((err) => {
         setError(err.message || "Posts fetch failed");
@@ -52,10 +51,14 @@ export default function Post() {
       });
   }, []);
 
+  useEffect(() => {
+    loadPosts();
+  }, [loadPosts]);
+
   return (
     <>
       <div className="lg:col-span-2 col-span-1 space-y-6">
-        <PostCreateCared userData={userData} />
+        <PostCreateCared userData={userData} onPostCreated={loadPosts} />
         <div className="space-y-4">
           <h2 className="text-[#6a7282] text-xl font-semibold px-2">
             Latest Posts
