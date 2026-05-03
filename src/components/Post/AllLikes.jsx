@@ -34,6 +34,7 @@ export default function LikesModal({ isOpen, onClose, likes, isLoading }) {
                 <img
                   src={user.photo}
                   alt={user.name}
+                  loading="lazy"
                   className="w-11 h-11 rounded-full object-cover border border-gray-100"
                 />
                 <div className="flex-1">

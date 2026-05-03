@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getPostDetails } from "../../services/getPostDetails";
 import PostCard from "../../components/Post/PostContent";
 import PostSkeleton from "../../components/Post/PostPlaceHolder";
-import { useContext } from "react";
 import { UserContext } from "../../App";
 import { fetchComments } from "../../services/comments";
+import { toast } from "react-toastify";
 
 export default function PostDetails() {
   const { id } = useParams();
@@ -20,21 +20,21 @@ export default function PostDetails() {
       .then((res) => {
         setPost(res.data.data.post);
       })
-      .catch((err) => {
-        console.error("Error fetching post details:", err);
+      .catch(() => {
+        toast.error("Failed to load post details");
       })
       .finally(() => {
         setLoading(false);
       });
   }, [id]);
+
   useEffect(() => {
     if (id) {
       fetchComments(id)
         .then((res) => {
-          console.log("Comments:", res.data.data.comments);
           setComments(res.data.data.comments);
         })
-        .catch((err) => console.log(err));
+        .catch(() => {});
     }
   }, [id]);
 

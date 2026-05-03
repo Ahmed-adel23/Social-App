@@ -3,8 +3,9 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./Routing/AppRoutes";
 import { HeroUIProvider } from "@heroui/react";
 import { ToastContainer } from "react-toastify";
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useMemo } from "react";
 import { fetchUserData } from "./services/user";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 export const UserContext = createContext(null);
 export const ThemeContext = createContext(null);
@@ -34,21 +35,31 @@ function App() {
         .then((res) => {
           setUserData(res.data.user);
         })
-        .catch((err) => {
-          console.error("Error fetching user context:", err);
-        });
+        .catch(() => {});
     }
   }, []);
 
+  const userContextValue = useMemo(
+    () => ({ userData, setUserData }),
+    [userData],
+  );
+
+  const themeContextValue = useMemo(
+    () => ({ darkMode, toggleDarkMode }),
+    [darkMode],
+  );
+
   return (
-    <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>
-      <UserContext.Provider value={{ userData, setUserData }}>
-        <HeroUIProvider>
-          <RouterProvider router={router} />
-          <ToastContainer position="top-right" autoClose={3000} theme={darkMode ? "dark" : "light"} />
-        </HeroUIProvider>
-      </UserContext.Provider>
-    </ThemeContext.Provider>
+    <ErrorBoundary>
+      <ThemeContext.Provider value={themeContextValue}>
+        <UserContext.Provider value={userContextValue}>
+          <HeroUIProvider>
+            <RouterProvider router={router} />
+            <ToastContainer position="top-right" autoClose={3000} theme={darkMode ? "dark" : "light"} />
+          </HeroUIProvider>
+        </UserContext.Provider>
+      </ThemeContext.Provider>
+    </ErrorBoundary>
   );
 }
 

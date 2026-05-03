@@ -8,6 +8,7 @@ import {
   MdCheck,
 } from "react-icons/md";
 import { fetchNotifications } from "../../services/getAllNotification";
+import { toast } from "react-toastify";
 
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState([]);
@@ -21,7 +22,7 @@ export default function NotificationsPage() {
         setNotifications(res.data.data.notifications);
       })
       .catch((err) => {
-        console.error("Error fetching notifications:", err);
+        toast.error("Failed to load notifications");
       })
       .finally(() => setLoading(false));
   }, []);
@@ -131,6 +132,7 @@ export default function NotificationsPage() {
                 <img
                   src={notif.actor?.photo}
                   alt={notif.actor?.name}
+                  loading="lazy"
                   className="w-10 h-10 rounded-full object-cover border border-slate-100 dark:border-gray-600 shrink-0"
                 />
 

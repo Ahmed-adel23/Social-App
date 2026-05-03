@@ -1,17 +1,10 @@
-import axios from "axios";
+import api from "./api";
 
-export const uploadProfilePhoto = async (file) => {
+export const uploadProfilePhoto = (file) => {
   const formData = new FormData();
   formData.append("photo", file);
 
-  return axios.put(
-    "https://route-posts.routemisr.com/users/upload-photo",
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        token: localStorage.getItem("userToken"),
-      },
-    },
-  );
+  return api.put("/users/upload-photo", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 };

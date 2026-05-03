@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import {
   createBrowserRouter,
   Navigate,
@@ -6,20 +6,33 @@ import {
   Outlet,
 } from "react-router-dom";
 import MainLayout from "../LayOuts/MainLayout/MainLayout";
-import Home from "../pages/Home/Home";
-import Profile from "../pages/Profile/Profile";
-import NotFound from "../pages/NotFound/NotFound";
-import AuthLayOut from "../LayOuts/AuthLayOut/AuthLayOut";
-import Login from "../pages/Authntcation/Login/Login";
-import Register from "../pages/Authntcation/Register/Register";
-import Settings from "../pages/Settings/Settings";
-import Navbar from "../components/NavBar/NavBar";
-import MyPosts from "../pages/MyPosts/MyPosts";
-import Comunity from "../pages/ComunityPosts/Comunity";
-import PostDetails from "../pages/PostDetails/PostDetails";
-import SavedPosts from "../pages/SavedPosts/SavedPosts";
-import Notifications from "../pages/Notifications/Notifications";
 import { FaArrowLeft } from "react-icons/fa";
+import Navbar from "../components/NavBar/NavBar";
+
+const Home = lazy(() => import("../pages/Home/Home"));
+const Profile = lazy(() => import("../pages/Profile/Profile"));
+const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
+const Login = lazy(() => import("../pages/Authntcation/Login/Login"));
+const Register = lazy(() => import("../pages/Authntcation/Register/Register"));
+const Settings = lazy(() => import("../pages/Settings/Settings"));
+const MyPosts = lazy(() => import("../pages/MyPosts/MyPosts"));
+const Comunity = lazy(() => import("../pages/ComunityPosts/Comunity"));
+const PostDetails = lazy(() => import("../pages/PostDetails/PostDetails"));
+const SavedPosts = lazy(() => import("../pages/SavedPosts/SavedPosts"));
+const Notifications = lazy(() => import("../pages/Notifications/Notifications"));
+const AuthLayOut = lazy(() => import("../LayOuts/AuthLayOut/AuthLayOut"));
+
+function PageFallback() {
+  return (
+    <div className="flex justify-center items-center min-h-[40vh]">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+    </div>
+  );
+}
+
+function SuspenseWrap({ children }) {
+  return <Suspense fallback={<PageFallback />}>{children}</Suspense>;
+}
 
 const ProtectedRoute = () => {
   const token = localStorage.getItem("userToken");
@@ -36,7 +49,7 @@ const PageWrapper = ({ children, showBackButton = false }) => (
     <Navbar />
     <section className="mx-auto max-w-6xl px-4 py-6">
       {showBackButton && (
-        <NavLink to={"/"}>
+        <NavLink to="/">
           <div className="flex flex-row items-center gap-2 text-white mb-4 bg-[#00298D] border border-gray-700 hover:bg-gray-800 rounded-lg w-max px-3 py-1.5 transition-colors">
             <FaArrowLeft />
             <h2 className="leading-none">Back</h2>
@@ -56,30 +69,36 @@ export const router = createBrowserRouter([
       {
         element: <MainLayout />,
         children: [
-          { index: true, element: <Home /> },
-          { path: "settings", element: <Settings /> },
+          { index: true, element: <SuspenseWrap><Home /></SuspenseWrap> },
+          { path: "settings", element: <SuspenseWrap><Settings /></SuspenseWrap> },
           {
             path: "Saved",
             element: (
-              <div className="min-h-screen bg-[#f0f2f5] dark:bg-gray-900 px-4 py-6 max-w-6xl mx-auto transition-colors">
-                <SavedPosts />
-              </div>
+              <SuspenseWrap>
+                <div className="min-h-screen bg-[#f0f2f5] dark:bg-gray-900 px-4 py-6 max-w-6xl mx-auto transition-colors">
+                  <SavedPosts />
+                </div>
+              </SuspenseWrap>
             ),
           },
           {
             path: "Comunity",
             element: (
-              <div className="min-h-screen bg-[#f0f2f5] dark:bg-gray-900 px-4 py-6 max-w-6xl mx-auto transition-colors">
-                <Comunity />
-              </div>
+              <SuspenseWrap>
+                <div className="min-h-screen bg-[#f0f2f5] dark:bg-gray-900 px-4 py-6 max-w-6xl mx-auto transition-colors">
+                  <Comunity />
+                </div>
+              </SuspenseWrap>
             ),
           },
           {
             path: "MyPosts",
             element: (
-              <div className="min-h-screen bg-[#f0f2f5] dark:bg-gray-900 px-4 py-6 max-w-6xl mx-auto transition-colors">
-                <MyPosts />
-              </div>
+              <SuspenseWrap>
+                <div className="min-h-screen bg-[#f0f2f5] dark:bg-gray-900 px-4 py-6 max-w-6xl mx-auto transition-colors">
+                  <MyPosts />
+                </div>
+              </SuspenseWrap>
             ),
           },
         ],
@@ -88,7 +107,7 @@ export const router = createBrowserRouter([
         path: "profile",
         element: (
           <PageWrapper>
-            <Profile />
+            <SuspenseWrap><Profile /></SuspenseWrap>
           </PageWrapper>
         ),
       },
@@ -96,15 +115,15 @@ export const router = createBrowserRouter([
         path: "notifications",
         element: (
           <PageWrapper>
-            <Notifications />
+            <SuspenseWrap><Notifications /></SuspenseWrap>
           </PageWrapper>
         ),
       },
       {
         path: "PostDetails/:id",
         element: (
-          <PageWrapper showBackButton={true}>
-            <PostDetails />
+          <PageWrapper showBackButton>
+            <SuspenseWrap><PostDetails /></SuspenseWrap>
           </PageWrapper>
         ),
       },
@@ -116,14 +135,16 @@ export const router = createBrowserRouter([
     element: <PublicRoute />,
     children: [
       {
-        element: <AuthLayOut />,
+        element: (
+          <SuspenseWrap><AuthLayOut /></SuspenseWrap>
+        ),
         children: [
-          { index: true, element: <Login /> },
-          { path: "register", element: <Register /> },
+          { index: true, element: <SuspenseWrap><Login /></SuspenseWrap> },
+          { path: "register", element: <SuspenseWrap><Register /></SuspenseWrap> },
         ],
       },
     ],
   },
 
-  { path: "*", element: <NotFound /> },
+  { path: "*", element: <SuspenseWrap><NotFound /></SuspenseWrap> },
 ]);

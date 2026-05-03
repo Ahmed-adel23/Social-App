@@ -1,11 +1,5 @@
-import axios from "axios";
+import api from "./api";
 
 export const toggleFollow = (userId) => {
-  return axios.put(
-    `https://route-posts.routemisr.com/users/${userId}/follow`,
-    {},
-    {
-      headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
-    },
-  );
+  return api.put(`/users/${userId}/follow`, {});
 };

@@ -41,7 +41,6 @@ export default function Post() {
     fetchFeedPosts()
       .then((res) => {
         setPosts(res.posts);
-        console.log(res.data.data);
       })
       .catch((err) => {
         setError(err.message || "Posts fetch failed");

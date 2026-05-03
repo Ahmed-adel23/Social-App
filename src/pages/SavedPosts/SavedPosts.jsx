@@ -4,6 +4,7 @@ import { getBookmarks } from "../../services/getBookmarks";
 import { useContext } from "react";
 import { UserContext } from "../../App";
 import { BsBookmarkFill } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 export default function SavedPosts() {
   const [posts, setPosts] = useState([]);
@@ -22,7 +23,7 @@ export default function SavedPosts() {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching saved posts:", error);
+        toast.error("Failed to load saved posts");
         setIsLoading(false);
       });
   }, []);

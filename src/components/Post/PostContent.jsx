@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { toast } from "react-toastify";
 import {
   FaPaperPlane,
   FaThumbsUp,
@@ -105,6 +106,7 @@ export default function PostCard({
       .catch((error) => {
         setIsBookmarked(wasBookmarked);
         console.error("Error toggling bookmark:", error);
+        toast.error("Failed to save post");
       });
   }
 
@@ -166,6 +168,7 @@ export default function PostCard({
       })
       .catch((err) => {
         console.error("Error adding comment:", err);
+        toast.error("Failed to add comment");
         setCommentText(contentToSend);
       });
   };
@@ -177,6 +180,7 @@ export default function PostCard({
       })
       .catch((err) => {
         console.log("Delete failed:", err.response?.data?.message || err.message);
+        toast.error("Failed to delete post");
       });
   }
 
@@ -193,6 +197,7 @@ export default function PostCard({
       setEditPreview(null);
     } catch (err) {
       console.error("Update failed", err);
+      toast.error("Failed to update post");
     }
   };
 
@@ -212,6 +217,7 @@ export default function PostCard({
       setLikedByUsers(res.data?.data?.likes || []);
     } catch (err) {
       console.error("Failed to fetch likes", err);
+      toast.error("Failed to load likes");
     } finally {
       setIsLoadingLikes(false);
     }
@@ -375,7 +381,7 @@ export default function PostCard({
             <p className="text-[#4b5563] dark:text-gray-300 text-lg mb-6 wrap-break-word whitespace-pre-wrap overflow-hidden">{post.body}</p>
             {post.image && (
               <div className="w-full h-80 mb-6 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 cursor-pointer group">
-                <img src={post.image} alt="post content" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+                <img src={post.image} alt="post content" loading="lazy" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
               </div>
             )}
           </>
@@ -444,7 +450,7 @@ export default function PostCard({
                 {localComments.map((comment, index) => (
                   <div key={comment?._id || index} className="flex gap-3 animate-fade-in">
                     <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 shrink-0 overflow-hidden">
-                      <img src={comment?.commentCreator?.photo || profileImg} alt="avatar" className="w-full h-full object-cover" />
+                      <img src={comment?.commentCreator?.photo || profileImg} alt="avatar" loading="lazy" className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="bg-[#F3F5F7] dark:bg-gray-700 p-2.5 rounded-2xl rounded-tl-none inline-block max-w-full">
@@ -452,7 +458,7 @@ export default function PostCard({
                         <p className="text-sm text-slate-600 dark:text-gray-400 break-words">{comment?.content}</p>
                         {comment?.image && (
                           <div className="mt-2 rounded-lg overflow-hidden border border-gray-100 dark:border-gray-600 max-w-xs">
-                            <img src={comment.image} alt="comment content" className="w-full h-auto" />
+                            <img src={comment.image} alt="comment content" loading="lazy" className="w-full h-auto" />
                           </div>
                         )}
                       </div>

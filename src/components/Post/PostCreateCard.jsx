@@ -3,6 +3,7 @@ import { FaImage, FaPaperPlane, FaTimes } from "react-icons/fa";
 import { UserContext } from "../../App";
 import { AddPost } from "../../services/createPost";
 import { LuLoader } from "react-icons/lu";
+import { toast } from "react-toastify";
 
 export default function PostCreateCard({ onPostCreated }) {
   const { userData } = useContext(UserContext);
@@ -43,7 +44,7 @@ export default function PostCreateCard({ onPostCreated }) {
         setIsExpanded(false);
         if (onPostCreated) onPostCreated();
       })
-      .catch((err) => console.error("Error:", err))
+      .catch(() => toast.error("Failed to create post"))
       .finally(() => setIsLoading(false));
   };
 

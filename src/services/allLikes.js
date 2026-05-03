@@ -1,13 +1,7 @@
-import axios from "axios";
+import api from "./api";
 
-export const fetchAllLikes = async (postId) => {
-  return axios.get(`https://route-posts.routemisr.com/posts/${postId}/likes`, {
-    params: {
-      page: 1,
-      limit: 20,
-    },
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-    },
+export const fetchAllLikes = (postId) => {
+  return api.get(`/posts/${postId}/likes`, {
+    params: { page: 1, limit: 20 },
   });
 };

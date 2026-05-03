@@ -39,7 +39,6 @@ export default function Login() {
         }
       })
       .catch((errMessage) => {
-        console.log(errMessage);
         setError("email", {
           type: "manual",
           message: errMessage,

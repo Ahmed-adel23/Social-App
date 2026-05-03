@@ -1,13 +1,5 @@
-import axios from "axios";
+import api from "./api";
 
-export const toggleBookmark = async (postId) => {
-  return axios.put(
-    `https://route-posts.routemisr.com/posts/${postId}/bookmark`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
-    },
-  );
+export const toggleBookmark = (postId) => {
+  return api.put(`/posts/${postId}/bookmark`, {});
 };

@@ -1,9 +1,5 @@
-import axios from "axios";
+import api from "./api";
 
 export const AddPost = (postData) => {
-  return axios.post("https://route-posts.routemisr.com/posts", postData, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-    },
-  });
+  return api.post("/posts", postData);
 };

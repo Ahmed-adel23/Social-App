@@ -65,8 +65,6 @@ export default function Settings() {
     setIsLoading(true);
     changePassword(data)
       .then((res) => {
-        console.log(res);
-
         if (res.success === true) {
           if (res.token) {
             localStorage.setItem("userToken", res.data.token);

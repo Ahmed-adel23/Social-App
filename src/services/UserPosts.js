@@ -1,20 +1,7 @@
-import axios from "axios";
+import api from "./api";
 
-export const getUserPosts = (userId, limit = 2) => {
-  const url = `https://route-posts.routemisr.com/users/${userId}/posts`;
-
-  return axios
-    .get(url, {
-      params: { limit: limit },
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
-    })
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      console.error("API Error Detail:", error.response?.data || error.message);
-      throw error;
-    });
+export const getUserPosts = (userId, limit = 20) => {
+  return api
+    .get(`/users/${userId}/posts`, { params: { limit } })
+    .then((response) => response.data);
 };

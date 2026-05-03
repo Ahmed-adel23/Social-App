@@ -57,7 +57,7 @@ export default function Comunity() {
         )}
 
         {!hasMore && posts.length > 0 && (
-          <p className="text-gray-400 text-sm italic font-medium bg-gray-50 px-4 py-2 rounded-full">
+          <p className="text-gray-400 dark:text-gray-500 text-sm italic font-medium bg-gray-50 dark:bg-gray-800 px-4 py-2 rounded-full">
             ✨ You've reached the end of the community feed
           </p>
         )}

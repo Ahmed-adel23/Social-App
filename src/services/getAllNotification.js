@@ -1,12 +1,7 @@
-import axios from "axios";
+import api from "./api";
 
 export const fetchNotifications = () => {
-  return axios.get(
-    `https://route-posts.routemisr.com/notifications?unread=false&page=1&limit=10`,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
-    },
-  );
+  return api.get("/notifications", {
+    params: { unread: false, page: 1, limit: 10 },
+  });
 };

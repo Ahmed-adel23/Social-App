@@ -16,8 +16,6 @@ export default function Profile() {
 
     uploadProfilePhoto(file)
       .then((res) => {
-        console.log(res);
-
         if (res.data.success === true) {
           toast.update(toastId, {
             render: "Photo updated successfully! ",
@@ -32,7 +30,6 @@ export default function Profile() {
         }
       })
       .catch((err) => {
-        console.error(err);
         toast.update(toastId, {
           render: "Failed to upload photo ❌",
           type: "error",

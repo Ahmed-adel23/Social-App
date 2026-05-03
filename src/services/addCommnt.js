@@ -1,13 +1,5 @@
-import axios from "axios";
+import api from "./api";
 
-export const addComment = async (postId, formData) => {
-  return axios.post(
-    `https://route-posts.routemisr.com/posts/${postId}/comments`,
-    formData,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
-    },
-  );
+export const addComment = (postId, formData) => {
+  return api.post(`/posts/${postId}/comments`, formData);
 };

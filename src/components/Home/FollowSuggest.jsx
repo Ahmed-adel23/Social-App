@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaUserPlus, FaCheck } from "react-icons/fa";
 import { getFollowSuggestions } from "../../services/getFollowSuggestions";
 import { toggleFollow } from "../../services/followUsers";
+import { toast } from "react-toastify";
 
 export default function FollowSuggest() {
   const [users, setUsers] = useState([]);
@@ -11,11 +12,8 @@ export default function FollowSuggest() {
     getFollowSuggestions()
       .then((response) => {
         setUsers(response.data.data.suggestions);
-        console.log(response, "follww");
       })
-      .catch((error) => {
-        console.error("Error fetching follow suggestions:", error);
-      });
+      .catch(() => {});
   }, []);
 
   const handleFollow = (userId) => {
@@ -29,8 +27,8 @@ export default function FollowSuggest() {
           ),
         );
       })
-      .catch((error) => {
-        console.error("Follow failed", error);
+      .catch(() => {
+        toast.error("Failed to follow user");
       })
       .finally(() => {
         setLoadingIds((prev) => prev.filter((id) => id !== userId));
@@ -59,6 +57,7 @@ export default function FollowSuggest() {
                       <img
                         src={user.photo}
                         alt={user.name}
+                        loading="lazy"
                         className="w-11 h-11 rounded-full object-cover border border-gray-100 shrink-0 cursor-pointer hover:ring-2 hover:ring-blue-200 transition-all"
                       />
                       <div className="min-w-0">
