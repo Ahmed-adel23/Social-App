@@ -102,20 +102,20 @@ export default function Settings() {
     <>
       {/* Header Section */}
       <div className="lg:col-span-2">
-        <div className="w-full bg-white rounded-3xl overflow-hidden shadow-md border p-6 border-gray-100 mb-6 flex flex-col justify-center items-start">
+        <div className="w-full bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-md border p-6 border-gray-100 dark:border-gray-700 mb-6 flex flex-col justify-center items-start transition-colors">
           <div className="flex flex-row mb-2">
-            <IoMdSettings className="text-[#99A1AF] text-3xl" />
-            <h1 className="font-bold text-2xl text-[#1e2939] ms-2">Settings</h1>
+            <IoMdSettings className="text-[#99A1AF] dark:text-gray-500 text-3xl" />
+            <h1 className="font-bold text-2xl text-[#1e2939] dark:text-gray-100 ms-2">Settings</h1>
           </div>
-          <p className="text-[16px] font-normal text-[#6a7282]">
+          <p className="text-[16px] font-normal text-[#6a7282] dark:text-gray-400">
             Manage your account settings and preferences
           </p>
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col md:flex-row min-h-150">
+      <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col md:flex-row min-h-150 transition-colors">
         {/* Sidebar Navigation */}
-        <div className="w-full md:w-1/3 border-r border-gray-100 p-6 space-y-2">
+        <div className="w-full md:w-1/3 border-r border-gray-100 dark:border-gray-700 p-6 space-y-2">
           <div className="flex items-center gap-3 p-4 bg-linear-to-r from-blue-500 to-cyan-400 text-white rounded-2xl shadow-md cursor-pointer">
             <FaShieldAlt />
             <span className="font-medium">Security</span>
@@ -129,13 +129,13 @@ export default function Settings() {
           ].map((item) => (
             <div
               key={item.name}
-              className="flex items-center justify-between p-4 text-slate-500 hover:bg-gray-50 rounded-2xl transition-all cursor-not-allowed group"
+              className="flex items-center justify-between p-4 text-slate-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-2xl transition-all cursor-not-allowed group"
             >
               <div className="flex items-center gap-3">
                 {item.icon}
                 <span className="font-medium">{item.name}</span>
               </div>
-              <span className="text-[10px] bg-gray-100 px-2 py-1 rounded-lg uppercase tracking-wider font-bold">
+              <span className="text-[10px] bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-lg uppercase tracking-wider font-bold">
                 Soon
               </span>
             </div>
@@ -146,11 +146,11 @@ export default function Settings() {
         <div className="w-full md:w-2/3 p-8">
           <div className="flex items-center gap-3 mb-2">
             <FaKey className="text-blue-500 text-xl -rotate-90" />
-            <h2 className="text-xl font-bold text-slate-800">
+            <h2 className="text-xl font-bold text-slate-800 dark:text-gray-100">
               Change Password
             </h2>
           </div>
-          <p className="text-slate-400 mb-8 text-sm font-normal">
+          <p className="text-slate-400 dark:text-gray-500 mb-8 text-sm font-normal">
             Update your password to keep your account secure
           </p>
 
@@ -201,29 +201,29 @@ export default function Settings() {
             />
 
             {/* Password Requirements Box */}
-            <div className="bg-gray-50/50 rounded-2xl p-6 border border-gray-100">
-              <p className="text-slate-600 font-medium mb-3">
+            <div className="bg-gray-50/50 dark:bg-gray-700/50 rounded-2xl p-6 border border-gray-100 dark:border-gray-600">
+              <p className="text-slate-600 dark:text-gray-300 font-medium mb-3">
                 Password must contain:
               </p>
-              <ul className="space-y-2 text-slate-500 text-sm">
+              <ul className="space-y-2 text-slate-500 dark:text-gray-400 text-sm">
                 <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-gray-500 rounded-full"></div>
                   At least 8 characters
                 </li>
                 <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-gray-500 rounded-full"></div>
                   One uppercase letter (A-Z)
                 </li>
                 <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-gray-500 rounded-full"></div>
                   One lowercase letter (a-z)
                 </li>
                 <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-gray-500 rounded-full"></div>
                   One Number (1-9)
                 </li>
                 <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-slate-400 dark:bg-gray-500 rounded-full"></div>
                   One special character (#?!@$%^&*-)
                 </li>
               </ul>

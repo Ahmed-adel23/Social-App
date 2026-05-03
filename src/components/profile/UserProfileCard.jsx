@@ -44,11 +44,11 @@ export default function UserProfileCard({
       </div>
 
       <div className="relative z-10 -mt-24 w-full pb-8">
-        <div className="bg-white rounded-[40px] shadow-2xl shadow-gray-200/50 p-6 md:p-10 border border-gray-50">
+        <div className="bg-white dark:bg-gray-800 rounded-[40px] shadow-2xl shadow-gray-200/50 dark:shadow-gray-900/50 p-6 md:p-10 border border-gray-50 dark:border-gray-700 transition-colors">
           <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-10">
             <div className="flex items-center gap-6">
               {/* Profile Image with Hover Effect */}
-              <div className="group relative w-24 h-24 md:w-32 md:h-32 rounded-full border-[6px] border-white shadow-md overflow-hidden bg-white shrink-0 cursor-pointer">
+              <div className="group relative w-24 h-24 md:w-32 md:h-32 rounded-full border-[6px] border-white dark:border-gray-800 shadow-md overflow-hidden bg-white dark:bg-gray-700 shrink-0 cursor-pointer">
                 <img
                   src={
                     preview ||
@@ -59,7 +59,6 @@ export default function UserProfileCard({
                   alt="profile"
                 />
 
-                {/* Overlay with Camera Icon */}
                 <label
                   htmlFor="profile-upload"
                   className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
@@ -76,13 +75,13 @@ export default function UserProfileCard({
               </div>
 
               <div className="space-y-1">
-                <h1 className="text-2xl md:text-3xl font-black text-[#1e293b]">
+                <h1 className="text-2xl md:text-3xl font-black text-[#1e293b] dark:text-gray-100">
                   {userData?.name || "Fares Ali"}
                 </h1>
-                <p className="text-[#64748b] text-xl">
+                <p className="text-[#64748b] dark:text-gray-400 text-xl">
                   @{userData?.name?.split(" ")[0].toLowerCase() || "user"}
                 </p>
-                <div className="inline-flex items-center gap-2 bg-[#f0f7ff] text-[#0077ff] px-3 py-1 rounded-full text-[11px] font-bold border border-[#e0efff]">
+                <div className="inline-flex items-center gap-2 bg-[#f0f7ff] dark:bg-blue-900/30 text-[#0077ff] dark:text-blue-400 px-3 py-1 rounded-full text-[11px] font-bold border border-[#e0efff] dark:border-blue-800/50">
                   <MdPeople className="text-sm" />
                   Route Posts member
                 </div>
@@ -106,18 +105,18 @@ export default function UserProfileCard({
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className="lg:col-span-8 bg-[#f8fafc] rounded-3xl p-6 border border-gray-100 min-h-40">
-              <h3 className="text-[#1e293b] font-bold text-sm mb-5 text-uppercase tracking-wider">
+            <div className="lg:col-span-8 bg-[#f8fafc] dark:bg-gray-700/50 rounded-3xl p-6 border border-gray-100 dark:border-gray-600 min-h-40">
+              <h3 className="text-[#1e293b] dark:text-gray-200 font-bold text-sm mb-5 text-uppercase tracking-wider">
                 About
               </h3>
               <div className="space-y-4">
-                <div className="flex items-center gap-3 text-[#64748b]">
+                <div className="flex items-center gap-3 text-[#64748b] dark:text-gray-400">
                   <MdEmail className="text-lg text-[#0077ff]" />
                   <span className="text-sm font-medium">
                     {userData?.email || "faresali0045@gmail.com"}
                   </span>
                 </div>
-                <div className="flex items-center gap-3 text-[#64748b]">
+                <div className="flex items-center gap-3 text-[#64748b] dark:text-gray-400">
                   <MdPeople className="text-lg text-[#0077ff]" />
                   <span className="text-sm font-medium italic">
                     Active on Route Posts
@@ -148,11 +147,11 @@ export default function UserProfileCard({
 
 function StatItem({ label, value }) {
   return (
-    <div className="flex-1 lg:min-w-30 bg-white border border-gray-100 rounded-3xl p-4 flex flex-col items-center justify-center shadow-sm hover:border-[#0077ff]/30 transition-colors group">
-      <span className="text-[10px] font-bold text-gray-400 tracking-tighter mb-1 uppercase group-hover:text-[#0077ff] transition-colors">
+    <div className="flex-1 lg:min-w-30 bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-3xl p-4 flex flex-col items-center justify-center shadow-sm hover:border-[#0077ff]/30 transition-colors group">
+      <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 tracking-tighter mb-1 uppercase group-hover:text-[#0077ff] transition-colors">
         {label}
       </span>
-      <span className="text-2xl font-black text-[#1e293b]">{value}</span>
+      <span className="text-2xl font-black text-[#1e293b] dark:text-gray-100">{value}</span>
     </div>
   );
 }
@@ -162,19 +161,19 @@ function SideInfoItem({ icon, title, value, active }) {
     <div
       className={`rounded-2xl p-4 border flex flex-col gap-1 transition-all cursor-pointer ${
         active
-          ? "bg-white border-[#0077ff]/20 shadow-lg shadow-blue-500/5"
-          : "bg-[#f8fafc] border-gray-100 hover:bg-white hover:border-[#0077ff]/20"
+          ? "bg-white dark:bg-gray-700 border-[#0077ff]/20 shadow-lg shadow-blue-500/5"
+          : "bg-[#f8fafc] dark:bg-gray-700/50 border-gray-100 dark:border-gray-600 hover:bg-white dark:hover:bg-gray-700 hover:border-[#0077ff]/20"
       }`}
     >
       <div
         className={`flex items-center gap-2 text-[10px] font-bold ${
-          active ? "text-[#0077ff]" : "text-gray-500"
+          active ? "text-[#0077ff]" : "text-gray-500 dark:text-gray-400"
         }`}
       >
         <span className="text-base">{icon}</span>
         {title}
       </div>
-      <div className="text-xl font-black text-[#1e293b]">{value}</div>
+      <div className="text-xl font-black text-[#1e293b] dark:text-gray-100">{value}</div>
     </div>
   );
 }

@@ -45,7 +45,7 @@ export default function PostDetails() {
       ) : post ? (
         <PostCard post={post} userData={userData} allComments={comments} />
       ) : (
-        <div className="text-center py-10 text-gray-500">
+        <div className="text-center py-10 text-gray-500 dark:text-gray-400">
           Post not found or has been deleted.
         </div>
       )}

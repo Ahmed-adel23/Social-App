@@ -62,13 +62,13 @@ export default function NotificationsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-black text-slate-800 flex items-center gap-2">
+          <h1 className="text-2xl font-black text-slate-800 dark:text-gray-100 flex items-center gap-2">
             <MdNotificationsActive className="text-blue-500" size={28} />
             Notifications
           </h1>
-          <p className="text-sm text-slate-500 mt-1 font-medium">
+          <p className="text-sm text-slate-500 dark:text-gray-400 mt-1 font-medium">
             You have{" "}
-            <span className="text-blue-600 font-bold">
+            <span className="text-blue-600 dark:text-blue-400 font-bold">
               {unreadCount} unread
             </span>{" "}
             messages
@@ -77,7 +77,7 @@ export default function NotificationsPage() {
 
         <button
           onClick={handleMarkAllAsRead}
-          className="flex items-center gap-1.5 text-xs font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 px-4 py-2.5 rounded-xl transition-all shadow-sm"
+          className="flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 px-4 py-2.5 rounded-xl transition-all shadow-sm cursor-pointer"
         >
           <MdDoneAll size={16} />
           Mark all as read
@@ -85,23 +85,23 @@ export default function NotificationsPage() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex gap-2 mb-6 bg-slate-100 p-1.5 rounded-2xl w-fit">
+      <div className="flex gap-2 mb-6 bg-slate-100 dark:bg-gray-800 p-1.5 rounded-2xl w-fit">
         <button
           onClick={() => setFilter("all")}
-          className={`px-6 py-2 rounded-xl text-xs font-black transition-all ${
+          className={`px-6 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
             filter === "all"
-              ? "bg-white text-blue-600 shadow-md"
-              : "text-slate-500 hover:text-slate-800"
+              ? "bg-white dark:bg-gray-700 text-blue-600 shadow-md"
+              : "text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-gray-200"
           }`}
         >
           ALL
         </button>
         <button
           onClick={() => setFilter("unread")}
-          className={`px-6 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-2 ${
+          className={`px-6 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
             filter === "unread"
-              ? "bg-white text-blue-600 shadow-md"
-              : "text-slate-500 hover:text-slate-800"
+              ? "bg-white dark:bg-gray-700 text-blue-600 shadow-md"
+              : "text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-gray-200"
           }`}
         >
           UNREAD
@@ -114,39 +114,38 @@ export default function NotificationsPage() {
       </div>
 
       {/* Notifications List */}
-      <div className="bg-white rounded-4xl shadow-xl shadow-slate-200/50 border border-slate-50 overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-4xl shadow-xl shadow-slate-200/50 dark:shadow-gray-900/50 border border-slate-50 dark:border-gray-700 overflow-hidden transition-colors">
         {loading ? (
-          <div className="py-20 text-center text-slate-400 animate-pulse">
+          <div className="py-20 text-center text-slate-400 dark:text-gray-500 animate-pulse">
             Loading notifications...
           </div>
         ) : displayedNotifications.length > 0 ? (
           displayedNotifications.map((notif) => (
             <div
               key={notif._id}
-              className={`p-5 border-b border-slate-50 flex items-center justify-between transition-all group ${
-                !notif.isRead ? "bg-blue-50/40" : "bg-white"
+              className={`p-5 border-b border-slate-50 dark:border-gray-700 flex items-center justify-between transition-all group ${
+                !notif.isRead ? "bg-blue-50/40 dark:bg-blue-900/20" : "bg-white dark:bg-gray-800"
               }`}
             >
               <div className="flex gap-4 items-start">
-                {/* Actor Photo */}
                 <img
                   src={notif.actor?.photo}
                   alt={notif.actor?.name}
-                  className="w-10 h-10 rounded-full object-cover border border-slate-100 shrink-0"
+                  className="w-10 h-10 rounded-full object-cover border border-slate-100 dark:border-gray-600 shrink-0"
                 />
 
                 <div className="space-y-1">
                   <p
-                    className={`text-sm leading-relaxed ${!notif.isRead ? "text-slate-900 font-bold" : "text-slate-600 font-medium"}`}
+                    className={`text-sm leading-relaxed ${!notif.isRead ? "text-slate-900 dark:text-gray-100 font-bold" : "text-slate-600 dark:text-gray-300 font-medium"}`}
                   >
                     {getNotificationText(notif)}
                   </p>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-slate-400 font-semibold">
+                    <span className="text-[11px] text-slate-400 dark:text-gray-500 font-semibold">
                       {new Date(notif.createdAt).toLocaleDateString()}{" "}
                     </span>
                     {!notif.isRead && (
-                      <span className="text-[10px] bg-blue-100 text-blue-600 px-1.5 rounded font-bold uppercase">
+                      <span className="text-[10px] bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 px-1.5 rounded font-bold uppercase">
                         New
                       </span>
                     )}
@@ -154,12 +153,11 @@ export default function NotificationsPage() {
                 </div>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 {!notif.isRead && (
                   <button
                     onClick={() => handleMarkAsRead(notif._id)}
-                    className="p-2 text-blue-500 hover:bg-white rounded-full transition-all shadow-sm bg-blue-50"
+                    className="p-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-full transition-all shadow-sm bg-white dark:bg-gray-700 cursor-pointer"
                   >
                     <MdCheck size={18} />
                   </button>
@@ -169,20 +167,20 @@ export default function NotificationsPage() {
           ))
         ) : (
           <div className="py-24 text-center">
-            <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="bg-slate-50 dark:bg-gray-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
               <MdOutlineNotificationsPaused
                 size={40}
-                className="text-slate-300"
+                className="text-slate-300 dark:text-gray-500"
               />
             </div>
-            <p className="text-slate-400 font-black text-sm uppercase tracking-widest">
+            <p className="text-slate-400 dark:text-gray-500 font-black text-sm uppercase tracking-widest">
               {filter === "unread" ? "Zero unread alerts" : "Inbox is empty"}
             </p>
           </div>
         )}
       </div>
 
-      <p className="text-center text-slate-300 text-[10px] mt-8 font-bold uppercase tracking-tighter">
+      <p className="text-center text-slate-300 dark:text-gray-600 text-[10px] mt-8 font-bold uppercase tracking-tighter">
         Notifications are updated in real-time
       </p>
     </div>

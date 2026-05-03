@@ -65,7 +65,7 @@ export default function FollowSuggest() {
                         <h4 className="font-semibold text-[#1e2939] dark:text-gray-200 text-sm truncate">
                           {user.name}
                         </h4>
-                        <p className="text-xs text-[#6a7282] font-normal truncate">
+                        <p className="text-xs text-[#6a7282] dark:text-gray-500 font-normal truncate">
                           {user.username ? `@${user.username}` : "Route User"}
                         </p>
                         <div className="flex flex-col gap-2 mt-1">
@@ -77,7 +77,7 @@ export default function FollowSuggest() {
                           </p>
 
                           {user.mutualFollowersCount > 0 && (
-                            <p className="text-[9px] text-blue-600 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full font-bold shadow-xs whitespace-nowrap w-fit">
+                            <p className="text-[9px] text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800/50 px-2 py-0.5 rounded-full font-bold shadow-xs whitespace-nowrap w-fit">
                               {user.mutualFollowersCount} Mutual
                             </p>
                           )}
@@ -92,7 +92,7 @@ export default function FollowSuggest() {
                       className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 flex items-center gap-2 border ${
                         user.isFollowed
                           ? "bg-blue-600 border-blue-600 text-white cursor-default"
-                          : "border-blue-500 text-blue-500 hover:bg-blue-50"
+                          : "border-blue-500 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                       } ${loadingIds.includes(user._id) ? "opacity-70 cursor-not-allowed" : ""}`}
                     >
                       {loadingIds.includes(user._id) ? (
