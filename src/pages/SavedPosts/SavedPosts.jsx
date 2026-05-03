@@ -38,12 +38,12 @@ export default function SavedPosts() {
   return (
     <div className="max-w-2xl mx-auto animate-fade-in-up">
       <div className="flex items-center gap-3 mb-8">
-        <div className="p-2.5 bg-blue-50 rounded-xl">
+        <div className="p-2.5 bg-blue-50 dark:bg-blue-900/30 rounded-xl">
           <BsBookmarkFill className="text-blue-500 text-xl" />
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-[#364153]">Saved Posts</h2>
-          <p className="text-sm text-gray-400">
+          <h2 className="text-2xl font-bold text-[#364153] dark:text-gray-200">Saved Posts</h2>
+          <p className="text-sm text-gray-400 dark:text-gray-500">
             {posts.length} {posts.length === 1 ? "post" : "posts"} saved
           </p>
         </div>
@@ -62,12 +62,12 @@ export default function SavedPosts() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 shadow-sm animate-fade-in">
-          <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-            <BsBookmarkFill className="text-gray-300 text-2xl" />
+        <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm animate-fade-in transition-colors">
+          <div className="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+            <BsBookmarkFill className="text-gray-300 dark:text-gray-500 text-2xl" />
           </div>
-          <h3 className="text-lg font-bold text-gray-700 mb-2">No saved posts yet</h3>
-          <p className="text-gray-400 font-medium max-w-xs mx-auto">
+          <h3 className="text-lg font-bold text-gray-700 dark:text-gray-300 mb-2">No saved posts yet</h3>
+          <p className="text-gray-400 dark:text-gray-500 font-medium max-w-xs mx-auto">
             Posts you save will appear here. Tap the bookmark icon on any post to save it for later.
           </p>
         </div>

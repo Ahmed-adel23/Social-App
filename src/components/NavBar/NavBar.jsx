@@ -10,12 +10,13 @@ import {
   FaChevronDown,
 } from "react-icons/fa";
 import { HiOutlineNewspaper, HiOutlineSparkles } from "react-icons/hi2";
-import { FiGlobe, FiBookmark } from "react-icons/fi";
+import { FiGlobe, FiBookmark, FiSun, FiMoon } from "react-icons/fi";
 import img from "../../assets/Images/FavIcon/route.png";
-import { UserContext } from "../../App";
+import { UserContext, ThemeContext } from "../../App";
 
 export default function Navbar() {
   const { userData, setUserData } = useContext(UserContext);
+  const { darkMode, toggleDarkMode } = useContext(ThemeContext);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isFeedOpen, setIsFeedOpen] = useState(false);
   const navigate = useNavigate();
@@ -23,20 +24,15 @@ export default function Navbar() {
   const userMenuRef = useRef();
   const feedDropDownRef = useRef();
 
-  // Paths for the Feed dropdown to check active state
   const feedPaths = ["/", "/MyPosts", "/Comunity", "/Saved"];
   const isFeedActive = feedPaths.includes(location.pathname);
 
-  // Close menus when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setIsUserMenuOpen(false);
       }
-      if (
-        feedDropDownRef.current &&
-        !feedDropDownRef.current.contains(event.target)
-      ) {
+      if (feedDropDownRef.current && !feedDropDownRef.current.contains(event.target)) {
         setIsFeedOpen(false);
       }
     };
@@ -50,208 +46,106 @@ export default function Navbar() {
     navigate("/auth");
   };
 
+  const navLinkClass = (isActive) =>
+    `relative flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-sm font-extrabold transition sm:gap-2 sm:px-3.5 ${
+      isActive
+        ? "bg-white dark:bg-gray-700 text-[#1f6fe5] shadow-sm"
+        : "text-slate-600 dark:text-gray-400 hover:bg-white/90 dark:hover:bg-gray-700/50"
+    }`;
+
+  const dropdownItemClass = (isActive) =>
+    `group flex items-center px-4 py-3 text-sm transition-colors ${
+      isActive
+        ? "bg-slate-100 dark:bg-gray-700 text-[#1f6fe5]"
+        : "text-slate-700 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700/50"
+    }`;
+
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/90 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-slate-200/90 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95 backdrop-blur transition-colors">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-2 py-1.5 sm:gap-3 sm:px-3">
-        {/* Logo Section */}
         <div className="flex items-center gap-3">
-          <img
-            alt="Route Posts"
-            className="h-9 w-9 rounded-xl object-cover"
-            src={img}
-          />
-          <p className="hidden text-xl font-extrabold text-slate-900 sm:block">
-            Route Posts
-          </p>
+          <img alt="Route Posts" className="h-9 w-9 rounded-xl object-cover" src={img} />
+          <p className="hidden text-xl font-extrabold text-slate-900 dark:text-white sm:block">Route Posts</p>
         </div>
 
-        {/* Navigation Links */}
-        <nav className="flex items-center gap-1 rounded-2xl border border-slate-200 bg-slate-50/90 px-1 py-1 sm:px-1.5">
-          {/* 1. Desktop Feed NavLink (Visible on md+ only) */}
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `hidden md:flex relative items-center gap-1.5 rounded-xl px-2.5 py-2 text-sm font-extrabold transition sm:gap-2 sm:px-3.5 ${
-                isActive
-                  ? "bg-white text-[#1f6fe5] shadow-sm"
-                  : "text-slate-600 hover:bg-white/90 hover:text-slate-900"
-              }`
-            }
-          >
-            <FaHome size={20} />
-            <span>Feed</span>
+        <nav className="flex items-center gap-1 rounded-2xl border border-slate-200 dark:border-gray-700 bg-slate-50/90 dark:bg-gray-800/90 px-1 py-1 sm:px-1.5">
+          <NavLink to="/" className={({ isActive }) => `hidden md:flex ${navLinkClass(isActive)}`}>
+            <FaHome size={20} /><span>Feed</span>
           </NavLink>
 
-          {/* 2. Mobile Feed Dropdown (Visible below md only) */}
           <div className="relative md:hidden" ref={feedDropDownRef}>
             <button
               onClick={() => setIsFeedOpen(!isFeedOpen)}
-              className={`relative flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-sm font-extrabold transition sm:gap-2 sm:px-3.5 ${
-                isFeedActive
-                  ? "bg-white text-[#1f6fe5] shadow-sm"
-                  : "text-slate-600 hover:bg-white/90"
-              }`}
+              className={navLinkClass(isFeedActive)}
             >
               <FaHome size={20} />
               <span className="sm:inline">Feed</span>
-              <FaChevronDown
-                size={12}
-                className={`transition-transform duration-200 ${
-                  isFeedOpen ? "rotate-180" : ""
-                }`}
-              />
+              <FaChevronDown size={12} className={`transition-transform duration-200 ${isFeedOpen ? "rotate-180" : ""}`} />
             </button>
 
-            {/* Dropdown Menu - Positioned Absolute with High Z-Index */}
             {isFeedOpen && (
-              <div className="absolute left-0 top-full mt-2 w-48 rounded-2xl bg-white shadow-2xl ring-1 ring-black ring-opacity-10 z-[100] border border-slate-100 py-2 overflow-hidden">
-                <NavLink
-                  to="/"
-                  onClick={() => setIsFeedOpen(false)}
-                  className={({ isActive }) =>
-                    `group flex items-center px-4 py-3 text-sm transition-colors ${
-                      isActive
-                        ? "bg-slate-100 text-[#1f6fe5]"
-                        : "text-slate-700 hover:bg-slate-50"
-                    }`
-                  }
-                >
-                  <HiOutlineNewspaper className="mr-3 text-slate-400 group-hover:text-blue-500" />
-                  Feed
+              <div className="absolute left-0 top-full mt-2 w-48 rounded-2xl bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black ring-opacity-10 z-[100] border border-slate-100 dark:border-gray-700 py-2 overflow-hidden animate-slide-down">
+                <NavLink to="/" onClick={() => setIsFeedOpen(false)} className={({ isActive }) => dropdownItemClass(isActive)}>
+                  <HiOutlineNewspaper className="mr-3 text-slate-400 group-hover:text-blue-500" />Feed
                 </NavLink>
-
-                <NavLink
-                  to="/MyPosts"
-                  onClick={() => setIsFeedOpen(false)}
-                  className={({ isActive }) =>
-                    `group flex items-center px-4 py-3 text-sm transition-colors ${
-                      isActive
-                        ? "bg-slate-100 text-[#1f6fe5]"
-                        : "text-slate-700 hover:bg-slate-50"
-                    }`
-                  }
-                >
-                  <HiOutlineSparkles className="mr-3 text-slate-400 group-hover:text-blue-500" />
-                  My Posts
+                <NavLink to="/MyPosts" onClick={() => setIsFeedOpen(false)} className={({ isActive }) => dropdownItemClass(isActive)}>
+                  <HiOutlineSparkles className="mr-3 text-slate-400 group-hover:text-blue-500" />My Posts
                 </NavLink>
-
-                <NavLink
-                  to="/Comunity"
-                  onClick={() => setIsFeedOpen(false)}
-                  className={({ isActive }) =>
-                    `group flex items-center px-4 py-3 text-sm transition-colors ${
-                      isActive
-                        ? "bg-slate-100 text-[#1f6fe5]"
-                        : "text-slate-700 hover:bg-slate-50"
-                    }`
-                  }
-                >
-                  <FiGlobe className="mr-3 text-slate-400 group-hover:text-blue-500" />
-                  Community
+                <NavLink to="/Comunity" onClick={() => setIsFeedOpen(false)} className={({ isActive }) => dropdownItemClass(isActive)}>
+                  <FiGlobe className="mr-3 text-slate-400 group-hover:text-blue-500" />Community
                 </NavLink>
-
-                <NavLink
-                  to="/Saved"
-                  onClick={() => setIsFeedOpen(false)}
-                  className={({ isActive }) =>
-                    `group flex items-center px-4 py-3 text-sm transition-colors ${
-                      isActive
-                        ? "bg-slate-100 text-[#1f6fe5]"
-                        : "text-slate-700 hover:bg-slate-50"
-                    }`
-                  }
-                >
-                  <FiBookmark className="mr-3 text-slate-400 group-hover:text-blue-500" />
-                  Saved
+                <NavLink to="/Saved" onClick={() => setIsFeedOpen(false)} className={({ isActive }) => dropdownItemClass(isActive)}>
+                  <FiBookmark className="mr-3 text-slate-400 group-hover:text-blue-500" />Saved
                 </NavLink>
               </div>
             )}
           </div>
 
-          {/* Profile Link */}
-          <NavLink
-            to="/profile"
-            className={({ isActive }) =>
-              `relative flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-sm font-extrabold transition sm:gap-2 sm:px-3.5 ${
-                isActive
-                  ? "bg-white text-[#1f6fe5] shadow-sm"
-                  : "text-slate-600 hover:bg-white/90"
-              }`
-            }
-          >
-            <FaUser size={18} />
-            <span className="hidden sm:inline">Profile</span>
+          <NavLink to="/profile" className={({ isActive }) => navLinkClass(isActive)}>
+            <FaUser size={18} /><span className="hidden sm:inline">Profile</span>
           </NavLink>
-
-          {/* Notifications Link */}
-          <NavLink
-            to="/notifications"
-            className={({ isActive }) =>
-              `relative flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-sm font-extrabold transition sm:gap-2 sm:px-3.5 ${
-                isActive
-                  ? "bg-white text-[#1f6fe5] shadow-sm"
-                  : "text-slate-600 hover:bg-white/90"
-              }`
-            }
-          >
-            <FaCommentDots size={20} />
-            <span className="hidden sm:inline">Notifications</span>
+          <NavLink to="/notifications" className={({ isActive }) => navLinkClass(isActive)}>
+            <FaCommentDots size={20} /><span className="hidden sm:inline">Notifications</span>
           </NavLink>
         </nav>
 
-        {/* User Profile Menu Section */}
-        <div className="relative" ref={userMenuRef}>
+        {/* Right section */}
+        <div className="flex items-center gap-2">
           <button
-            onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-            className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-2 py-1.5 transition hover:bg-slate-100"
+            onClick={toggleDarkMode}
+            className="p-2 rounded-full border border-slate-200 dark:border-gray-600 bg-slate-50 dark:bg-gray-800 hover:bg-slate-100 dark:hover:bg-gray-700 transition-all cursor-pointer"
+            title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
-            <img
-              alt={userData?.name}
-              className="h-8 w-8 rounded-full object-cover"
-              src={
-                userData?.photo ||
-                "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png"
-              }
-            />
-            <span className="hidden max-w-35 truncate text-sm font-semibold text-slate-800 md:block">
-              {userData?.name}
-            </span>
-            <FaBars className="text-slate-500" size={14} />
+            {darkMode ? <FiSun size={18} className="text-yellow-400" /> : <FiMoon size={18} className="text-slate-600" />}
           </button>
 
-          {isUserMenuOpen && (
-            <div className="absolute right-0 mt-2 w-56 origin-top-right rounded-2xl bg-white shadow-xl z-50 overflow-hidden border border-slate-100">
-              <div className="py-2">
-                <Link
-                  to="/profile"
-                  onClick={() => setIsUserMenuOpen(false)}
-                  className="group flex items-center px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
-                >
-                  <FaUser className="mr-3 text-slate-400 group-hover:text-blue-500" />
-                  Profile
-                </Link>
+          <div className="relative" ref={userMenuRef}>
+            <button
+              onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              className="flex items-center gap-2 rounded-full border border-slate-200 dark:border-gray-600 bg-slate-50 dark:bg-gray-800 px-2 py-1.5 transition hover:bg-slate-100 dark:hover:bg-gray-700 cursor-pointer"
+            >
+              <img alt={userData?.name} className="h-8 w-8 rounded-full object-cover" src={userData?.photo || "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png"} />
+              <span className="hidden max-w-35 truncate text-sm font-semibold text-slate-800 dark:text-gray-200 md:block">{userData?.name}</span>
+              <FaBars className="text-slate-500 dark:text-gray-400" size={14} />
+            </button>
 
-                <Link
-                  to="/settings"
-                  onClick={() => setIsUserMenuOpen(false)}
-                  className="group flex items-center px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
-                >
-                  <FaCog className="mr-3 text-slate-400 group-hover:text-blue-500" />
-                  Settings
-                </Link>
-
-                <hr className="my-1 border-slate-100" />
-
-                <button
-                  onClick={handleLogout}
-                  className="group flex w-full items-center px-4 py-3 text-sm text-red-500 hover:bg-red-50 transition-colors"
-                >
-                  <FaSignOutAlt className="mr-3 text-red-400 group-hover:text-red-500" />
-                  Logout
-                </button>
+            {isUserMenuOpen && (
+              <div className="absolute right-0 mt-2 w-56 origin-top-right rounded-2xl bg-white dark:bg-gray-800 shadow-xl z-50 overflow-hidden border border-slate-100 dark:border-gray-700 animate-slide-down">
+                <div className="py-2">
+                  <Link to="/profile" onClick={() => setIsUserMenuOpen(false)} className="group flex items-center px-4 py-3 text-sm text-slate-700 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700 transition-colors">
+                    <FaUser className="mr-3 text-slate-400 group-hover:text-blue-500" />Profile
+                  </Link>
+                  <Link to="/settings" onClick={() => setIsUserMenuOpen(false)} className="group flex items-center px-4 py-3 text-sm text-slate-700 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700 transition-colors">
+                    <FaCog className="mr-3 text-slate-400 group-hover:text-blue-500" />Settings
+                  </Link>
+                  <hr className="my-1 border-slate-100 dark:border-gray-700" />
+                  <button onClick={handleLogout} className="group flex w-full items-center px-4 py-3 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer">
+                    <FaSignOutAlt className="mr-3 text-red-400 group-hover:text-red-500" />Logout
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </header>

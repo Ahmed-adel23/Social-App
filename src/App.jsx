@@ -7,16 +7,31 @@ import React, { createContext, useState, useEffect } from "react";
 import { fetchUserData } from "./services/user";
 
 export const UserContext = createContext(null);
+export const ThemeContext = createContext(null);
 
 function App() {
   const [userData, setUserData] = useState(null);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
+
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
   useEffect(() => {
     const token = localStorage.getItem("userToken");
     if (token) {
       fetchUserData()
         .then((res) => {
-          console.log("البيانات وصلت السيرفر بنجاح:", res.data.user);
           setUserData(res.data.user);
         })
         .catch((err) => {
@@ -26,12 +41,14 @@ function App() {
   }, []);
 
   return (
-    <UserContext.Provider value={{ userData, setUserData }}>
-      <HeroUIProvider>
-        <RouterProvider router={router} />
-        <ToastContainer position="top-right" autoClose={3000} theme="light" />
-      </HeroUIProvider>
-    </UserContext.Provider>
+    <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>
+      <UserContext.Provider value={{ userData, setUserData }}>
+        <HeroUIProvider>
+          <RouterProvider router={router} />
+          <ToastContainer position="top-right" autoClose={3000} theme={darkMode ? "dark" : "light"} />
+        </HeroUIProvider>
+      </UserContext.Provider>
+    </ThemeContext.Provider>
   );
 }
 

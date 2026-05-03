@@ -17,7 +17,7 @@ export default function SidebarNav() {
   ];
 
   return (
-    <div className="w-70 bg-white rounded-2xl p-4 shadow-sm border border-slate-50">
+    <div className="w-70 bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-slate-50 dark:border-gray-700 transition-colors">
       <ul className="space-y-1">
         {menuItems.map((item) => (
           <li key={item.name}>
@@ -26,8 +26,8 @@ export default function SidebarNav() {
               className={({ isActive }) =>
                 `flex items-center gap-4 px-5 py-3.5 rounded-2xl transition-all font-semibold cursor-pointer ${
                   isActive
-                    ? "bg-[#eef6ff] text-[#1d75ff] shadow-sm"
-                    : "text-[#364153] hover:bg-slate-50 hover:translate-x-1"
+                    ? "bg-[#eef6ff] dark:bg-blue-900/30 text-[#1d75ff] shadow-sm"
+                    : "text-[#364153] dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700/50 hover:translate-x-1"
                 }`
               }
             >

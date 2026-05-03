@@ -2,9 +2,10 @@ import React, { useRef, useCallback } from "react";
 import usePosts from "../../hooks/usePosts";
 import { fetchFeedPosts } from "../../services/feedPosts";
 import UserPosts from "../../components/profile/UserPosts";
+import PostCreateCard from "../../components/Post/PostCreateCard";
 
 export default function Home() {
-  const { posts, isLoadingPosts, setPosts, hasMore, loadMorePosts } =
+  const { posts, isLoadingPosts, setPosts, hasMore, loadMorePosts, refreshPosts } =
     usePosts(fetchFeedPosts);
 
   const observer = useRef();
@@ -26,6 +27,7 @@ export default function Home() {
 
   return (
     <div className="space-y-6 pt-6">
+      <PostCreateCard onPostCreated={refreshPosts} />
       <UserPosts posts={posts} loading={false} />
 
       <div
@@ -36,8 +38,8 @@ export default function Home() {
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
         )}
         {!hasMore && posts.length > 0 && (
-          <p className="text-gray-400 text-sm italic">
-            You've reached the end of the feed ✨
+          <p className="text-gray-400 dark:text-gray-500 text-sm italic">
+            You've reached the end of the feed
           </p>
         )}
       </div>

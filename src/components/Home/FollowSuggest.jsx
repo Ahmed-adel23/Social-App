@@ -40,9 +40,9 @@ export default function FollowSuggest() {
     <>
       <div className="hidden lg:block lg:col-span-1 h-fit sticky top-10">
         <div className="space-y-4">
-          <div className="rounded-xl bg-white shadow-sm border border-gray-100 p-6">
+          <div className="rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 p-6 transition-colors">
             {/* Header */}
-            <h2 className="text-[#364153] font-bold text-lg mb-6 flex items-center gap-2">
+            <h2 className="text-[#364153] dark:text-gray-200 font-bold text-lg mb-6 flex items-center gap-2">
               <FaUserPlus className="text-blue-500" />
               <span>Who to Follow</span>
             </h2>
@@ -62,7 +62,7 @@ export default function FollowSuggest() {
                         className="w-11 h-11 rounded-full object-cover border border-gray-100 shrink-0 cursor-pointer hover:ring-2 hover:ring-blue-200 transition-all"
                       />
                       <div className="min-w-0">
-                        <h4 className="font-semibold text-[#1e2939] text-sm truncate">
+                        <h4 className="font-semibold text-[#1e2939] dark:text-gray-200 text-sm truncate">
                           {user.name}
                         </h4>
                         <p className="text-xs text-[#6a7282] font-normal truncate">

@@ -11,7 +11,7 @@ export default function MainLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5]">
+    <div className="min-h-screen bg-[#f0f2f5] dark:bg-gray-900 transition-colors">
       <Navbar />
 
       <section className="mx-auto max-w-7xl  sm:px-6 lg:px-8">

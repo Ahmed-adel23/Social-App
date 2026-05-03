@@ -32,7 +32,7 @@ const PublicRoute = () => {
 };
 
 const PageWrapper = ({ children, showBackButton = false }) => (
-  <div className="min-h-screen bg-[#f0f2f5]">
+  <div className="min-h-screen bg-[#f0f2f5] dark:bg-gray-900 transition-colors">
     <Navbar />
     <section className="mx-auto max-w-6xl px-4 py-6">
       {showBackButton && (
@@ -61,7 +61,7 @@ export const router = createBrowserRouter([
           {
             path: "Saved",
             element: (
-              <div className="min-h-screen bg-[#f0f2f5] px-4 py-6 max-w-6xl mx-auto">
+              <div className="min-h-screen bg-[#f0f2f5] dark:bg-gray-900 px-4 py-6 max-w-6xl mx-auto transition-colors">
                 <SavedPosts />
               </div>
             ),
@@ -69,7 +69,7 @@ export const router = createBrowserRouter([
           {
             path: "Comunity",
             element: (
-              <div className="min-h-screen bg-[#f0f2f5] px-4 py-6 max-w-6xl mx-auto">
+              <div className="min-h-screen bg-[#f0f2f5] dark:bg-gray-900 px-4 py-6 max-w-6xl mx-auto transition-colors">
                 <Comunity />
               </div>
             ),
@@ -77,7 +77,7 @@ export const router = createBrowserRouter([
           {
             path: "MyPosts",
             element: (
-              <div className="min-h-screen bg-[#f0f2f5] px-4 py-6 max-w-6xl mx-auto">
+              <div className="min-h-screen bg-[#f0f2f5] dark:bg-gray-900 px-4 py-6 max-w-6xl mx-auto transition-colors">
                 <MyPosts />
               </div>
             ),
