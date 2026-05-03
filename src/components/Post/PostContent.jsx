@@ -13,9 +13,9 @@ import {
   HiOutlinePencilAlt,
   HiOutlineTrash,
 } from "react-icons/hi";
-import { BsBookmark, BsEye } from "react-icons/bs";
+import { BsBookmark, BsBookmarkFill, BsEye } from "react-icons/bs";
 import { BiRepost } from "react-icons/bi";
-import { AiOutlineLike } from "react-icons/ai";
+import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { toggleBookmark } from "../../services/addRemoveBookmark";
 import { addComment } from "../../services/addCommnt";
@@ -25,8 +25,6 @@ import { updatePost } from "../../services/updatePost";
 import { fetchAllLikes } from "../../services/allLikes";
 import LikesModal from "./AllLikes";
 import { formatDistanceToNow } from "date-fns";
-
-<LikesModal />;
 
 export default function PostCard({
   post,
@@ -48,6 +46,10 @@ export default function PostCard({
     ),
   );
   const [likesCount, setLikesCount] = useState(post.likes?.length || 0);
+  const [likeAnimating, setLikeAnimating] = useState(false);
+
+  const [isBookmarked, setIsBookmarked] = useState(isSavedPage);
+  const [bookmarkAnimating, setBookmarkAnimating] = useState(false);
 
   const [localComments, setLocalComments] = useState(allComments || []);
   const [localCommentsCount, setLocalCommentsCount] = useState(
@@ -84,17 +86,31 @@ export default function PostCard({
   }, [post.commentsCount]);
 
   function handleBookmark() {
+    setBookmarkAnimating(true);
+    setTimeout(() => setBookmarkAnimating(false), 400);
+
+    const wasBookmarked = isBookmarked;
+    setIsBookmarked(!isBookmarked);
+
     toggleBookmark(post._id)
       .then(() => {
         if (isSavedPage && onUnsave) onUnsave(post._id);
       })
-      .catch((error) => console.error("Error toggling bookmark:", error));
+      .catch((error) => {
+        setIsBookmarked(wasBookmarked);
+        console.error("Error toggling bookmark:", error);
+      });
   }
 
   function handleLike() {
     const wasLiked = isLiked;
     setIsLiked(!isLiked);
     setLikesCount((prev) => (wasLiked ? prev - 1 : prev + 1));
+
+    if (!wasLiked) {
+      setLikeAnimating(true);
+      setTimeout(() => setLikeAnimating(false), 300);
+    }
 
     likePost(post._id)
       .then(() => {})
@@ -212,16 +228,21 @@ export default function PostCard({
       setIsLoadingLikes(false);
     }
   };
-  console.log(post);
 
   return (
     <>
-      <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 mb-6">
+      <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 mb-6 relative animate-fade-in-up">
+        {/* Bookmark indicator */}
+        {(isBookmarked || isSavedPage) && (
+          <div className={`absolute top-4 right-4 text-blue-500 ${bookmarkAnimating ? "animate-bookmark-pop" : ""}`}>
+            <BsBookmarkFill size={16} />
+          </div>
+        )}
         {/* Header */}
         <div className="flex justify-between items-start mb-4">
           <div className="flex items-center gap-3 w-full relative">
             <img
-              className="rounded-full w-10 h-10 border border-gray-100 object-cover"
+              className="rounded-full w-10 h-10 border border-gray-100 object-cover cursor-pointer hover:ring-2 hover:ring-blue-200 transition-all"
               src={post.user?.photo || profileImg}
               alt="User"
             />
@@ -241,7 +262,7 @@ export default function PostCard({
             <div className="relative">
               <button
                 onClick={() => setShowMenu(!showMenu)}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500"
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500 cursor-pointer"
               >
                 <HiDotsVertical size={20} className=" rotate-90" />
               </button>
@@ -252,20 +273,20 @@ export default function PostCard({
                     className="fixed inset-0 z-10"
                     onClick={() => setShowMenu(false)}
                   ></div>
-                  <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl py-2 z-20 animate-fade-in">
+                  <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl py-2 z-20 animate-slide-down">
                     <button
                       onClick={() => {
                         handleBookmark();
                         setShowMenu(false);
                       }}
-                      className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-3"
+                      className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-3 cursor-pointer"
                     >
-                      <BsBookmark
-                        className={
-                          isSavedPage ? "text-red-400" : "text-gray-400"
-                        }
-                      />
-                      {isSavedPage ? "Unsave Post" : "Save Post"}
+                      {isBookmarked || isSavedPage ? (
+                        <BsBookmarkFill className="text-blue-500" />
+                      ) : (
+                        <BsBookmark className="text-gray-400" />
+                      )}
+                      {isBookmarked || isSavedPage ? "Unsave Post" : "Save Post"}
                     </button>
 
                     {post.user?._id === userId && (
@@ -276,7 +297,7 @@ export default function PostCard({
                             setShowMenu(false);
                             setIsEditing(true);
                           }}
-                          className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-3"
+                          className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-3 cursor-pointer"
                         >
                           <HiOutlinePencilAlt
                             className="text-gray-400"
@@ -290,7 +311,7 @@ export default function PostCard({
                             setShowMenu(false);
                             handleDelete(post._id);
                           }}
-                          className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors flex items-center gap-3"
+                          className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors flex items-center gap-3 cursor-pointer"
                         >
                           <HiOutlineTrash className="text-red-400" size={18} />
                           Delete Post
@@ -386,11 +407,11 @@ export default function PostCard({
             </p>
 
             {post.image && (
-              <div className="w-full h-80 mb-6 rounded-2xl overflow-hidden border border-gray-100">
+              <div className="w-full h-80 mb-6 rounded-2xl overflow-hidden border border-gray-100 cursor-pointer group">
                 <img
                   src={post.image}
                   alt="post content"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                 />
               </div>
             )}
@@ -431,21 +452,25 @@ export default function PostCard({
         <div className="grid grid-cols-3 gap-2 py-1 mb-4">
           <button
             onClick={handleLike}
-            className={`flex justify-center items-center gap-2 py-2.5 rounded-xl transition-all font-semibold ${
+            className={`flex justify-center items-center gap-2 py-2.5 rounded-xl transition-all font-semibold cursor-pointer select-none active:scale-95 ${
               isLiked
-                ? "text-blue-600 bg-blue-50"
+                ? "text-blue-600 bg-blue-50 hover:bg-blue-100"
                 : "text-[#6a7282] hover:bg-gray-50"
             }`}
           >
-            <AiOutlineLike
-              className={`text-lg ${isLiked ? "text-blue-600" : ""}`}
-            />
+            {isLiked ? (
+              <AiFillLike
+                className={`text-lg text-blue-600 ${likeAnimating ? "animate-like-pop" : ""}`}
+              />
+            ) : (
+              <AiOutlineLike className="text-lg" />
+            )}
             <span>Like</span>
           </button>
-          <button className="flex justify-center items-center gap-2 py-2.5 text-[#6a7282] hover:bg-gray-50 rounded-xl transition-all font-semibold">
+          <button className="flex justify-center items-center gap-2 py-2.5 text-[#6a7282] hover:bg-gray-50 rounded-xl transition-all font-semibold cursor-pointer select-none active:scale-95">
             <FaRegCommentDots className="text-lg" /> <span>Comment</span>
           </button>
-          <button className="flex justify-center items-center gap-2 py-2.5 text-[#6a7282] hover:bg-gray-50 rounded-xl transition-all font-semibold">
+          <button className="flex justify-center items-center gap-2 py-2.5 text-[#6a7282] hover:bg-gray-50 rounded-xl transition-all font-semibold cursor-pointer select-none active:scale-95">
             <FaShare className="text-lg" /> <span>Share</span>
           </button>
         </div>

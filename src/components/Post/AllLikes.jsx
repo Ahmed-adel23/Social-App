@@ -5,7 +5,7 @@ export default function LikesModal({ isOpen, onClose, likes, isLoading }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 jj z-100 flex items-center justify-center p-4">
+    <div className="fixed inset-0  z-100 flex items-center justify-center p-4">
       <div
         className="fixed inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
@@ -18,14 +18,14 @@ export default function LikesModal({ isOpen, onClose, likes, isLoading }) {
           <h3 className="text-lg font-bold text-slate-800">Likes</h3>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full text-gray-400 transition-colors"
+            className="p-2 hover:bg-gray-100 rounded-full text-gray-400 transition-colors cursor-pointer"
           >
             <FaTimes size={18} />
           </button>
         </div>
 
         {/* Likes List */}
-        <div className="max-h-100px overflow-y-auto p-2">
+        <div className="max-h-96 overflow-y-auto p-2">
           {isLoading ? (
             <div className="p-8 text-center text-gray-500">
               Loading likes...

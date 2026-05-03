@@ -3,6 +3,7 @@ import PostCard from "../../components/Post/PostContent";
 import { getBookmarks } from "../../services/getBookmarks";
 import { useContext } from "react";
 import { UserContext } from "../../App";
+import { BsBookmarkFill } from "react-icons/bs";
 
 export default function SavedPosts() {
   const [posts, setPosts] = useState([]);
@@ -35,12 +36,17 @@ export default function SavedPosts() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto ">
+    <div className="max-w-2xl mx-auto animate-fade-in-up">
       <div className="flex items-center gap-3 mb-8">
-        <h2 className="text-2xl font-bold text-[#364153]">Saved Posts</h2>
-        <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-bold">
-          {posts.length}
-        </span>
+        <div className="p-2.5 bg-blue-50 rounded-xl">
+          <BsBookmarkFill className="text-blue-500 text-xl" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-[#364153]">Saved Posts</h2>
+          <p className="text-sm text-gray-400">
+            {posts.length} {posts.length === 1 ? "post" : "posts"} saved
+          </p>
+        </div>
       </div>
 
       {posts.length > 0 ? (
@@ -56,8 +62,14 @@ export default function SavedPosts() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-gray-100">
-          <p className="text-gray-400 font-medium">No saved posts found.</p>
+        <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 shadow-sm animate-fade-in">
+          <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <BsBookmarkFill className="text-gray-300 text-2xl" />
+          </div>
+          <h3 className="text-lg font-bold text-gray-700 mb-2">No saved posts yet</h3>
+          <p className="text-gray-400 font-medium max-w-xs mx-auto">
+            Posts you save will appear here. Tap the bookmark icon on any post to save it for later.
+          </p>
         </div>
       )}
     </div>

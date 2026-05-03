@@ -24,10 +24,10 @@ export default function SidebarNav() {
             <NavLink
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center gap-4 px-5 py-3.5 rounded-2xl transition-all font-semibold ${
+                `flex items-center gap-4 px-5 py-3.5 rounded-2xl transition-all font-semibold cursor-pointer ${
                   isActive
-                    ? "bg-[#eef6ff] text-[#1d75ff]"
-                    : "text-[#364153] hover:bg-slate-50"
+                    ? "bg-[#eef6ff] text-[#1d75ff] shadow-sm"
+                    : "text-[#364153] hover:bg-slate-50 hover:translate-x-1"
                 }`
               }
             >
