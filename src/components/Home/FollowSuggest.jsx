@@ -59,7 +59,7 @@ export default function FollowSuggest() {
                       <img
                         src={user.photo}
                         alt={user.name}
-                        className="w-11 h-11 rounded-full object-cover border border-gray-100 shrink-0"
+                        className="w-11 h-11 rounded-full object-cover border border-gray-100 shrink-0 cursor-pointer hover:ring-2 hover:ring-blue-200 transition-all"
                       />
                       <div className="min-w-0">
                         <h4 className="font-semibold text-[#1e2939] text-sm truncate">
@@ -122,15 +122,15 @@ export default function FollowSuggest() {
           {/* Footer Links */}
           <div className="px-2">
             <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-gray-400 font-medium uppercase tracking-wider">
-              <a href="#" className="hover:underline italic">
+              <a href="#" className="hover:underline italic cursor-pointer hover:text-gray-600 transition-colors">
                 Terms
               </a>
               <span>•</span>
-              <a href="#" className="hover:underline italic">
+              <a href="#" className="hover:underline italic cursor-pointer hover:text-gray-600 transition-colors">
                 Privacy
               </a>
               <span>•</span>
-              <a href="#" className="hover:underline italic">
+              <a href="#" className="hover:underline italic cursor-pointer hover:text-gray-600 transition-colors">
                 Cookies
               </a>
             </div>
