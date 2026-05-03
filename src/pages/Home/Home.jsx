@@ -28,7 +28,6 @@ export default function Home() {
   return (
     <div className="space-y-6 pt-6">
       <PostCreateCard onPostCreated={refreshPosts} />
-      <UserPosts posts={posts} loading={false} />
 
       <div
         ref={lastPostElementRef}
