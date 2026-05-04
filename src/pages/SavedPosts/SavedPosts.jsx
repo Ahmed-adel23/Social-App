@@ -5,8 +5,10 @@ import { useContext } from "react";
 import { UserContext } from "../../App";
 import { BsBookmarkFill } from "react-icons/bs";
 import { toast } from "react-toastify";
+import usePageTitle from "../../hooks/usePageTitle";
 
 export default function SavedPosts() {
+  usePageTitle("Saved Posts");
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { userData } = useContext(UserContext);

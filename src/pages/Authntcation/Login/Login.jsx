@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "./../../../services/auth";
 import { FaSpinner, FaUser, FaKey } from "react-icons/fa";
 import { UserContext } from "../../../App";
+import usePageTitle from "../../../hooks/usePageTitle";
 
 const loginSchema = zod.object({
   email: zod.string().email("*Email is invalid"),
@@ -13,6 +14,7 @@ const loginSchema = zod.object({
 });
 
 export default function Login() {
+  usePageTitle("Log In");
   const [isLoading, setisLoading] = useState(false);
   const navigate = useNavigate();
   const { setUserData } = useContext(UserContext);

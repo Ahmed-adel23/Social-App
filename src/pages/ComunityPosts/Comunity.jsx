@@ -3,11 +3,13 @@ import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import usePosts from "../../hooks/usePosts";
+import usePageTitle from "../../hooks/usePageTitle";
 import { fetchPosts } from "../../services/posts";
 import UserPosts from "../../components/profile/UserPosts";
 import PostCreateCard from "../../components/Post/PostCreateCard";
 
 export default function Comunity() {
+  usePageTitle("Community");
   const location = useLocation();
 
   const { posts, isLoadingPosts, hasMore, loadMorePosts, refreshPosts } =

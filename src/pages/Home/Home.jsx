@@ -1,5 +1,6 @@
 import React, { useRef, useCallback, useContext, useMemo } from "react";
 import usePosts from "../../hooks/usePosts";
+import usePageTitle from "../../hooks/usePageTitle";
 import { fetchFeedPosts } from "../../services/feedPosts";
 import PostCreateCard from "../../components/Post/PostCreateCard";
 import PostCard from "../../components/Post/PostContent";
@@ -8,6 +9,7 @@ import profileImg from "../../assets/Images/HomeImgs/defaultProfile.png";
 import { UserContext } from "../../App";
 
 export default function Home() {
+  usePageTitle("Feed");
   const { userData } = useContext(UserContext);
   const { posts, isLoadingPosts, hasMore, loadMorePosts, refreshPosts } =
     usePosts(fetchFeedPosts);

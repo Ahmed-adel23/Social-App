@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /auth
+Disallow: /settings
+
+Sitemap: https://route-posts.vercel.app/sitemap.xml

@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import { changePassword } from "../../services/changePassword";
 import { toast } from "react-toastify";
+import usePageTitle from "../../hooks/usePageTitle";
 
 const passwordSchema = zod
   .object({
@@ -36,6 +37,7 @@ const passwordSchema = zod
   });
 
 export default function Settings() {
+  usePageTitle("Settings");
   const [isLoading, setIsLoading] = useState(false);
 
   const [visibleFields, setVisibleFields] = useState({

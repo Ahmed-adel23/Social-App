@@ -12,6 +12,7 @@ import { useForm, Controller } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerUser } from "../../../services/auth";
+import usePageTitle from "../../../hooks/usePageTitle";
 
 const registSchema = zod
   .object({
@@ -39,6 +40,7 @@ const registSchema = zod
   });
 
 export default function Register() {
+  usePageTitle("Create Account");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 

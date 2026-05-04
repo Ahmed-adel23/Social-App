@@ -1,0 +1,22 @@
+{
+  "name": "Route Posts",
+  "short_name": "Route Posts",
+  "description": "Connect, share posts, and discover communities on Route Posts.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0f2f5",
+  "theme_color": "#1f6fe5",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

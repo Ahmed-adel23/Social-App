@@ -3,12 +3,14 @@ import UserProfileCard from "../../components/profile/UserProfileCard";
 import UserPosts from "../../components/profile/UserPosts";
 import Loading from "../Loading/Loading";
 import useUserPosts from "../../hooks/useUserPosts";
+import usePageTitle from "../../hooks/usePageTitle";
 import { UserContext } from "../../App";
 import { uploadProfilePhoto } from "../../services/uploadProfile";
 import { toast } from "react-toastify";
 
 export default function Profile() {
   const { userData, setUserData } = useContext(UserContext);
+  usePageTitle(userData?.name ? `${userData.name}'s Profile` : "Profile");
   const { posts, isLoadingPosts } = useUserPosts();
 
   const handlePhotoUpload = (file) => {

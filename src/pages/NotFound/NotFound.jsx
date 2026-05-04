@@ -2,8 +2,10 @@ import React from "react";
 import { Button } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { FaHome, FaArrowLeft } from "react-icons/fa";
+import usePageTitle from "../../hooks/usePageTitle";
 
 export default function NotFound() {
+  usePageTitle("Page Not Found");
   const navigate = useNavigate();
 
   return (

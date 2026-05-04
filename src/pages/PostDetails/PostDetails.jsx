@@ -6,10 +6,12 @@ import PostSkeleton from "../../components/Post/PostPlaceHolder";
 import { UserContext } from "../../App";
 import { fetchComments } from "../../services/comments";
 import { toast } from "react-toastify";
+import usePageTitle from "../../hooks/usePageTitle";
 
 export default function PostDetails() {
   const { id } = useParams();
   const [post, setPost] = useState(null);
+  usePageTitle(post ? `${post.user?.name}'s Post` : "Post Details");
   const [loading, setLoading] = useState(true);
   const { userData } = useContext(UserContext);
   const [comments, setComments] = useState([]);

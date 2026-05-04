@@ -4,9 +4,11 @@ import UserPosts from "../../components/profile/UserPosts";
 import { UserContext } from "../../App";
 import ProfileImg from "../../assets/Images/HomeImgs/defaultProfile.png";
 import useUserPosts from "../../hooks/useUserPosts";
+import usePageTitle from "../../hooks/usePageTitle";
 import { FaArrowLeft } from "react-icons/fa";
 
 export default function MyPosts() {
+  usePageTitle("My Posts");
   const { userData } = useContext(UserContext);
   const { posts, isLoadingPosts, refreshPosts } = useUserPosts();
 

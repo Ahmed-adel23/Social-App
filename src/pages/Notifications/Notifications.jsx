@@ -9,8 +9,10 @@ import {
 } from "react-icons/md";
 import { fetchNotifications } from "../../services/getAllNotification";
 import { toast } from "react-toastify";
+import usePageTitle from "../../hooks/usePageTitle";
 
 export default function NotificationsPage() {
+  usePageTitle("Notifications");
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
